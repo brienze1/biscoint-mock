@@ -25,11 +25,11 @@ public class OfferEntity {
     private String offerId;
 
     @NotNull
-    @Column(name = "base")
+    @Column(name = "base", columnDefinition = "DECIMAL(16,8)")
     private Quote base;
 
     @NotNull
-    @Column(name = "quote")
+    @Column(name = "quote", columnDefinition = "DECIMAL(16,8)")
     private Quote quote;
 
     @NotNull
@@ -40,7 +40,7 @@ public class OfferEntity {
     private boolean quotedInBrl;
 
     @Positive
-    @Column(name = "base_amount")
+    @Column(name = "base_amount", columnDefinition = "DECIMAL(16,8)")
     private BigDecimal baseAmount;
 
     @Positive
@@ -48,16 +48,18 @@ public class OfferEntity {
     private BigDecimal unitaryValue;
 
     @Positive
-    @Column(name = "quote_amount")
+    @Column(name = "quote_amount", columnDefinition = "DECIMAL(16,8)")
     private BigDecimal quoteAmount;
 
     @NotNull
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @NotNull
     @Column(name = "expires_at")
     private LocalDateTime expiresAt;
+
+    @Column(name = "confirmed_at")
+    private LocalDateTime confirmedAt;
 
     @NotEmpty
     @Column(name = "api_key_id")
@@ -74,6 +76,8 @@ public class OfferEntity {
         setQuoteAmount(offer.getQuoteAmount());
         setCreatedAt(offer.getCreatedAt());
         setExpiresAt(offer.getExpiresAt());
+        setExpiresAt(offer.getExpiresAt());
+        setConfirmedAt(offer.getConfirmedAt());
         setApiKeyId(offer.getApiKeyId());
     }
 
@@ -121,6 +125,10 @@ public class OfferEntity {
         this.expiresAt = expiresAt;
     }
 
+    public void setConfirmedAt(LocalDateTime confirmedAt) {
+        this.confirmedAt = confirmedAt;
+    }
+
     public void setApiKeyId(String apiKeyId) {
         this.apiKeyId = apiKeyId;
     }
@@ -165,6 +173,10 @@ public class OfferEntity {
         return expiresAt;
     }
 
+    public LocalDateTime getConfirmedAt() {
+        return confirmedAt;
+    }
+
     public String getApiKeyId() {
         return apiKeyId;
     }
@@ -184,6 +196,7 @@ public class OfferEntity {
         offer.setQuoteAmount(getQuoteAmount());
         offer.setCreatedAt(getCreatedAt());
         offer.setExpiresAt(getExpiresAt());
+        offer.setConfirmedAt(getConfirmedAt());
         offer.setApiKeyId(getApiKeyId());
 
         return offer;

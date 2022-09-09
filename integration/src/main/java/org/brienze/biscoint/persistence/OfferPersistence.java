@@ -18,4 +18,9 @@ public class OfferPersistence implements OfferRepositoryAdapter {
 		return offerRepository.save(new OfferEntity(offer)).toOffer();
 	}
 
+	@Override
+	public Offer getByOfferIdAndApiKey(String offerId, String apiKey) {
+		return offerRepository.findByOfferIdAndApiKeyId(offerId, apiKey).toOffer();
+	}
+
 }

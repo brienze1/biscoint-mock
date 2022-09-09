@@ -17,6 +17,12 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
 			<groupId>org.brienze.biscoint</groupId>
 			<artifactId>domain</artifactId>
 			<version>0.0.1-SNAPSHOT</version>

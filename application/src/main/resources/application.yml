@@ -3,20 +3,23 @@ server.port: 8085
  
 #datasource
 spring:
-  h2:    console:      path: /h2
+  h2:
+    console:
+      path: /h2
       enabled: true
   datasource:
-    url: jdbc:h2:C:/data/sampledata
+#    url: jdbc:h2:C:/data/sampledata
+    url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
     username: sa
     password: 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    hibernate.ddl-auto: update
+#    hibernate.ddl-auto: update
     
 # ======= biscoint =======
 # secrets
 biscoint.api:
   key: ${BISCOINT_API_KEY}
   secret: ${BISCOINT_API_SECRET}
-  url.get.value: https://api.biscoint.io/v1/ticker?base=BTC&quote=BRL
+  url.get.value: https://api.biscoint.io/v1/ticker

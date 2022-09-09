@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface OfferRepository extends CrudRepository<OfferEntity, String> {
 
+    OfferEntity findByOfferIdAndApiKeyId(String offerId, String apiKey);
+
 }

@@ -26,7 +26,7 @@ public class CreateOfferUseCase {
 	public Offer createOffer(OfferRequest offerRequest, String apiKey) {
 		Client client = clientRepository.findClient(apiKey);
 		
-		BigDecimal bitcoinUnitaryValue = getBitcoinUnitaryValueUseCase.getvalue(offerRequest.getOperation(), Quote.BRL);
+		BigDecimal bitcoinUnitaryValue = getBitcoinUnitaryValueUseCase.getvalue(offerRequest.getOperation(), offerRequest.getQuotedOn());
 		
 		Offer offer = new Offer(offerRequest, apiKey, bitcoinUnitaryValue);
 		

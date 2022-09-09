@@ -13,29 +13,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Component
 public class StringUtils implements StringUtilsAdapter {
 
-	@Autowired
-	private ObjectMapper mapper;
-	
-	@Override
-	public String parseToString(Object object) {
-		Validators.validateNotNull(object, "Could not parse object to string. Object is null.");
-		
-		try {
-			return mapper.writeValueAsString(mapper.writeValueAsString(object));
-		} catch (JsonProcessingException e) {
-			throw new ValidationException("Could not parse object to string. ".concat(e.getMessage()));
-		}
-	}
+    @Autowired
+    private ObjectMapper mapper;
 
-	@Override
-	public JsonNode parseToJson(String body) {
-		Validators.validateNotEmpty(body, "Could not parse string to json. String is empty.");
-		
-		try {
-			return mapper.readValue(body, JsonNode.class);
-		} catch (JsonProcessingException e) {
-			throw new ValidationException("Could not parse string to json. ".concat(e.getMessage()));
-		}
-	}
+    @Override
+    public String parseToString(Object object) {
+        Validators.validateNotNull(object, "Could not parse object to string. Object is null.");
+
+        return mapper.valueToTree(object).toString();
+    }
+
+    @Override
+    public JsonNode parseToJson(String body) {
+        Validators.validateNotEmpty(body, "Could not parse string to json. String is empty.");
+
+        try {
+            return mapper.readValue(body, JsonNode.class);
+        } catch (JsonProcessingException e) {
+            throw new ValidationException("Could not parse string to json. ".concat(e.getMessage()));
+        }
+    }
 
 }

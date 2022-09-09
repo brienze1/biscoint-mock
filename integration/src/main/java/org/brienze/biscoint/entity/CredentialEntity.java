@@ -1,17 +1,14 @@
 package org.brienze.biscoint.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="credentials")
 public class CredentialEntity {
 
 	@Id
-	@NotEmpty
 	@Column(name="api_key")
 	private String api_key;
 	

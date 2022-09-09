@@ -6,4 +6,6 @@ public interface OfferRepositoryAdapter {
 
 	Offer save(Offer offer);
 
+	Offer getByOfferIdAndApiKey(String offerId, String apiKey);
+
 }

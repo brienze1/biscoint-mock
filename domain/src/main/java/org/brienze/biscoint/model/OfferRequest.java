@@ -3,38 +3,49 @@ package org.brienze.biscoint.model;
 import java.math.BigDecimal;
 
 import org.brienze.biscoint.enums.Operation;
+import org.brienze.biscoint.enums.Quote;
 import org.brienze.biscoint.validator.Validators;
 
 public class OfferRequest {
 
-	private Operation operation;
-	private BigDecimal amount;
-	private Boolean quotedOnBrl;
+    private Operation operation;
+    private BigDecimal amount;
+    private Boolean quotedOnBrl;
 
-	public void setOperation(Operation operation) {
-		Validators.validateNotNull(operation, "operation cannot be null.");
+    public void setOperation(Operation operation) {
+        Validators.validateNotNull(operation, "operation cannot be null.");
 
-		this.operation = operation;
-	}
-	public void setAmount(BigDecimal amount) {
-		Validators.validateGreaterThanZero(amount, "amount cannot be less than zero.");
+        this.operation = operation;
+    }
 
-		this.amount = amount;
-	}
-	public void setQuotedOnBrl(Boolean quotedOnBrl) {
-		Validators.validateNotNull(quotedOnBrl, "quotedOnBrl cannot be null.");
+    public void setAmount(BigDecimal amount) {
+        Validators.validateGreaterThanZero(amount, "amount cannot be less than zero.");
 
-		this.quotedOnBrl = quotedOnBrl;
-	}
-	
-	public Operation getOperation() {
-		return operation;
-	}
-	public BigDecimal getAmount() {
-		return amount;
-	}
-	public Boolean getQuotedOnBrl() {
-		return quotedOnBrl;
-	}
+        this.amount = amount;
+    }
 
+    public void setQuotedOnBrl(Boolean quotedOnBrl) {
+        Validators.validateNotNull(quotedOnBrl, "quotedOnBrl cannot be null.");
+
+        this.quotedOnBrl = quotedOnBrl;
+    }
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public Boolean getQuotedOnBrl() {
+        return quotedOnBrl;
+    }
+
+    public Quote getQuotedOn() {
+        if (quotedOnBrl) {
+            return Quote.BRL;
+        }
+        return Quote.BTC;
+    }
 }

@@ -35,7 +35,7 @@ public class AuthorizationValidatorFilter implements Filter {
 		RequestWrapper wrappedRequest = new RequestWrapper((HttpServletRequest) request);
 		
 		JsonNode body = stringUtils.parseToJson(wrappedRequest.getBody());
-		String path = wrappedRequest.getRequestURI().toString().substring(1);
+		String path = wrappedRequest.getRequestURI().substring(1);
 		String nonce = wrappedRequest.getHeader(NONCE);
 		String apiKey = wrappedRequest.getHeader(API_KEY);
 		String sign = wrappedRequest.getHeader(SIGN);
