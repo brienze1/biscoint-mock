@@ -17,8 +17,6 @@ public class Sha384Encoder implements Sha384EncoderAdapter {
 
 		byte[] hmac = new HmacUtils(HMAC_SHA_384, key).hmac(message);
 
-		String signedStrng = Hex.encodeHexString(hmac);
-
-		return signedStrng;
+		return Hex.encodeHexString(hmac);
 	}
 }

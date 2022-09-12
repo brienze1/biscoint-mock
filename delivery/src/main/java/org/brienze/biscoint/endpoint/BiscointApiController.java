@@ -3,6 +3,7 @@ package org.brienze.biscoint.endpoint;
 import org.brienze.biscoint.dto.ConfirmOfferRequestDto;
 import org.brienze.biscoint.dto.OfferRequestDto;
 import org.brienze.biscoint.dto.OfferResponseDto;
+import org.brienze.biscoint.dto.TokenResponseDto;
 import org.brienze.biscoint.model.Offer;
 import org.brienze.biscoint.model.OfferRequest;
 import org.brienze.biscoint.useCases.ConfirmOfferUseCase;
@@ -10,11 +11,10 @@ import org.brienze.biscoint.useCases.CreateOfferUseCase;
 import org.brienze.biscoint.useCases.SignTokenUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class BiscointApiController {
@@ -49,15 +49,12 @@ public class BiscointApiController {
     }
 
     @PostMapping("/v1/auth")
-    public ResponseEntity<Map<String, String>> generateToken(@RequestBody Object request, @RequestHeader HttpHeaders headers) {
+    public TokenResponseDto generateToken(@RequestBody Object request, @RequestHeader HttpHeaders headers) {
         String nonce = headers.getFirst(NONCE);
         String apiKey = headers.getFirst(API_KEY);
         String path = headers.getFirst(PATH);
 
-        Map<String, String> response = new HashMap<>();
-        response.put("token", signTokenUseCase.signToken(request, path, nonce, apiKey));
-
-        return ResponseEntity.ok().body(response);
+        return new TokenResponseDto(signTokenUseCase.signToken(request, path, nonce, apiKey));
     }
 
 }

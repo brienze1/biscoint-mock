@@ -19,7 +19,7 @@ public class CredentialsPersistence implements CredentialRepositoryAdapter {
 	public String getSecret(String apiKey) {
 		Optional<CredentialEntity> credentialEntity = credentialRepository.findById(apiKey);
 
-		return credentialEntity.orElseThrow(() -> new CredentialNotFoundException("ApiKey not found.")).getApi_secret();
+		return credentialEntity.orElseThrow(() -> new CredentialNotFoundException("ApiKey not found.")).getApiSecret();
 	}
 
 }
