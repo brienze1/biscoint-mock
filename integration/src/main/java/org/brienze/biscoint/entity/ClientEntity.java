@@ -16,7 +16,7 @@ import org.brienze.biscoint.model.Client;
 public class ClientEntity {
 
     public ClientEntity(Client client) {
-        this.api_key = client.getApiKey();
+        this.apiKey = client.getApiKey();
         this.name = client.getName();
         this.bitcoinBalance = client.getBitcoinBalance();
         this.brlBalance = client.getBrlBalance();
@@ -25,7 +25,7 @@ public class ClientEntity {
     @Id
     @NotEmpty
     @Column(name = "api_key")
-    private String api_key;
+    private String apiKey;
 
     @NotEmpty
     @Column(name = "name")
@@ -42,8 +42,8 @@ public class ClientEntity {
     public ClientEntity() {
     }
 
-    public void setApi_key(String api_key) {
-        this.api_key = api_key;
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 
     public void setName(String name) {
@@ -58,8 +58,8 @@ public class ClientEntity {
         this.brlBalance = brlBalance;
     }
 
-    public String getApi_key() {
-        return api_key;
+    public String getApiKey() {
+        return apiKey;
     }
 
     public String getName() {
@@ -77,7 +77,7 @@ public class ClientEntity {
     public Client toClient() {
         Client client = new Client();
 
-        client.setApiKey(this.api_key);
+        client.setApiKey(this.apiKey);
         client.setName(this.name);
         client.setBitcoinBalance(this.bitcoinBalance);
         client.setBrlBalance(this.brlBalance);

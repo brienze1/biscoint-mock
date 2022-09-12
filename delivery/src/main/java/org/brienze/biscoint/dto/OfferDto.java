@@ -12,40 +12,40 @@ import java.time.LocalDateTime;
 public class OfferDto {
 
     @JsonProperty("offerId")
-    private final String offerId;
+    private String offerId;
 
     @JsonProperty("base")
-    private final String base;
+    private String base;
 
     @JsonProperty("quote")
-    private final String quote;
+    private String quote;
 
     @JsonProperty("op")
-    private final String operation;
+    private String operation;
 
     @JsonProperty("isQuote")
-    private final Boolean quotedInBrl;
+    private Boolean quotedInBrl;
 
     @JsonProperty("baseAmount")
-    private final BigDecimal baseAmount;
+    private BigDecimal baseAmount;
 
     @JsonProperty("quoteAmount")
-    private final BigDecimal quoteAmount;
+    private BigDecimal quoteAmount;
 
     @JsonProperty("efPrice")
-    private final BigDecimal unitaryValue;
+    private BigDecimal unitaryValue;
 
     @JsonProperty("createdAt")
-    private final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @JsonProperty("expiresAt")
-    private final LocalDateTime expiresAt;
+    private LocalDateTime expiresAt;
 
     @JsonProperty("confirmedAt")
-    private final LocalDateTime confirmedAt;
+    private LocalDateTime confirmedAt;
 
     @JsonProperty("apiKeyId")
-    private final String apiKeyId;
+    private String apiKeyId;
 
     public OfferDto(Offer offer) {
         this.offerId = offer.getOfferId();
@@ -60,5 +60,56 @@ public class OfferDto {
         this.expiresAt = offer.getExpiresAt();
         this.confirmedAt = offer.getConfirmedAt();
         this.apiKeyId = offer.getApiKeyId();
+    }
+
+    public OfferDto() {
+    }
+
+    public String getOfferId() {
+        return offerId;
+    }
+
+    public String getBase() {
+        return base;
+    }
+
+    public String getQuote() {
+        return quote;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public Boolean getQuotedInBrl() {
+        return quotedInBrl;
+    }
+
+    public BigDecimal getBaseAmount() {
+        return baseAmount;
+    }
+
+    public BigDecimal getQuoteAmount() {
+        return quoteAmount;
+    }
+
+    public BigDecimal getUnitaryValue() {
+        return unitaryValue;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getExpiresAt() {
+        return expiresAt;
+    }
+
+    public LocalDateTime getConfirmedAt() {
+        return confirmedAt;
+    }
+
+    public String getApiKeyId() {
+        return apiKeyId;
     }
 }

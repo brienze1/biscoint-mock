@@ -40,4 +40,19 @@ public class BitcoinDto {
         return new Bitcoin(this.base, this.quote, this.buyValue, this.sellValue);
     }
 
+    public void setBase(Quote base) {
+        this.base = base;
+    }
+
+    public void setQuote(Quote quote) {
+        this.quote = quote;
+    }
+
+    public void setBuyValue(BigDecimal buyValue) {
+        this.buyValue = buyValue;
+    }
+
+    public void setSellValue(BigDecimal sellValue) {
+        this.sellValue = sellValue;
+    }
 }

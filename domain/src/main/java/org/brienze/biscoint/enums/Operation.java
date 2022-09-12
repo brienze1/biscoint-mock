@@ -2,9 +2,9 @@ package org.brienze.biscoint.enums;
 
 public enum Operation {
 
-	BUY("Buy"), SELL("Sell");
+	BUY("buy"), SELL("sell");
 	
-	private String name;
+	private final String name;
 	
 	Operation(String name){
 		this.name = name;
