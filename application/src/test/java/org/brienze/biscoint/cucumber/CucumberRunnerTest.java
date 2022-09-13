@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = "org.brienze.biscoint.cucumber.steps",
-        plugin = "pretty")
+        plugin = "pretty"
+)
 public class CucumberRunnerTest {
 }
