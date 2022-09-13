@@ -113,7 +113,7 @@ Feature: Create offer feature
     And there should be an offer with the same id in the db
 
   @BuyBtcFailure
-  Scenario: Create buy btc offer failure short on balance
+  Scenario: Create buy btc offer failure short on brl balance
     Given the following data exist in credentials db
       | api_key    | api_key_test    |
       | api_secret | api_secret_test |
@@ -123,5 +123,47 @@ Feature: Create offer feature
     And the current bitcoin unitary "buy" value is 100000.00
     When an offer is created to "buy" 0.011 "btc"
     Then the return status code should be 400
+    And the error message should be "Brl balance cannot be less than transaction value."
+    And there should not be an offer in the db
+
+  @SellBtcFailure
+  Scenario: Create sell btc offer failure short on btc balance
+    Given the following data exist in credentials db
+      | api_key    | api_key_test    |
+      | api_secret | api_secret_test |
+    And a client with api_key "api_key_test" and name "luis" exists in clients db
+    And the client has 0.001 "btc" balance
+    And the current bitcoin unitary "sell" value is 99000.00
+    And the current bitcoin unitary "buy" value is 100000.00
+    When an offer is created to "sell" 0.0011 "btc"
+    Then the return status code should be 400
     And the error message should be "Bitcoin balance cannot be less than transaction value."
+    And there should not be an offer in the db
+
+  @BuyBrlFailure
+  Scenario: Create buy brl offer failure short on btc balance
+    Given the following data exist in credentials db
+      | api_key    | api_key_test    |
+      | api_secret | api_secret_test |
+    And a client with api_key "api_key_test" and name "luis" exists in clients db
+    And the client has 0.001 "btc" balance
+    And the current bitcoin unitary "sell" value is 99000.00
+    And the current bitcoin unitary "buy" value is 100000.00
+    When an offer is created to "buy" 10000.0 "brl"
+    Then the return status code should be 400
+    And the error message should be "Bitcoin balance cannot be less than transaction value."
+    And there should not be an offer in the db
+
+  @SellBrlFailure
+  Scenario: Create sell brl offer failure short on brl balance
+    Given the following data exist in credentials db
+      | api_key    | api_key_test    |
+      | api_secret | api_secret_test |
+    And a client with api_key "api_key_test" and name "luis" exists in clients db
+    And the client has 100.00 "brl" balance
+    And the current bitcoin unitary "sell" value is 99000.00
+    And the current bitcoin unitary "buy" value is 100000.00
+    When an offer is created to "sell" 10000.0 "brl"
+    Then the return status code should be 400
+    And the error message should be "Brl balance cannot be less than transaction value."
     And there should not be an offer in the db

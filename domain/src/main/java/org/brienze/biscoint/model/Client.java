@@ -56,20 +56,20 @@ public class Client {
 
         if (!offer.getQuotedInBrl() && offer.getOperation().equals(BUY)) {
             Validators.validateGreaterThanZero(offer.getQuoteAmount(), "transaction value cannot be less than zero.");
-            Validators.validateGreaterThanZero(this.brlBalance, "brlBalance cannot be less than zero.");
-            Validators.validatePositive(this.brlBalance.compareTo(offer.getQuoteAmount()), "Bitcoin balance cannot be less than transaction value.");
+            Validators.validateGreaterThanZero(this.brlBalance, "Brl balance cannot be less than zero.");
+            Validators.validatePositive(this.brlBalance.compareTo(offer.getQuoteAmount()), "Brl balance cannot be less than transaction value.");
         } else if (!offer.getQuotedInBrl() && offer.getOperation().equals(SELL)) {
             Validators.validateGreaterThanZero(offer.getQuoteAmount(), "transaction value cannot be less than zero.");
-            Validators.validateGreaterThanZero(this.bitcoinBalance, "bitcoinBalance cannot be less than zero.");
-            Validators.validatePositive(this.bitcoinBalance.compareTo(offer.getBaseAmount()), "Brl balance cannot be less than transaction value.");
+            Validators.validateGreaterThanZero(this.bitcoinBalance, "Bitcoin balance cannot be less than zero.");
+            Validators.validatePositive(this.bitcoinBalance.compareTo(offer.getBaseAmount()), "Bitcoin balance cannot be less than transaction value.");
         } else if (offer.getQuotedInBrl() && offer.getOperation().equals(BUY)) {
             Validators.validateGreaterThanZero(offer.getQuoteAmount(), "transaction value cannot be less than zero.");
-            Validators.validateGreaterThanZero(this.bitcoinBalance, "bitcoinBalance cannot be less than zero.");
-            Validators.validatePositive(this.bitcoinBalance.compareTo(offer.getQuoteAmount()), "Brl balance cannot be less than transaction value.");
+            Validators.validateGreaterThanZero(this.bitcoinBalance, "Bitcoin balance cannot be less than zero.");
+            Validators.validatePositive(this.bitcoinBalance.compareTo(offer.getQuoteAmount()), "Bitcoin balance cannot be less than transaction value.");
         } else if (offer.getQuotedInBrl() && offer.getOperation().equals(SELL)) {
             Validators.validateGreaterThanZero(offer.getQuoteAmount(), "transaction value cannot be less than zero.");
-            Validators.validateGreaterThanZero(this.brlBalance, "brlBalance cannot be less than zero.");
-            Validators.validatePositive(this.brlBalance.compareTo(offer.getBaseAmount()), "Bitcoin balance cannot be less than transaction value.");
+            Validators.validateGreaterThanZero(this.brlBalance, "Brl balance cannot be less than zero.");
+            Validators.validatePositive(this.brlBalance.compareTo(offer.getBaseAmount()), "Brl balance cannot be less than transaction value.");
         }
     }
 
