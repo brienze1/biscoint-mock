@@ -59,7 +59,7 @@ public class OfferDto {
         this.confirmedAt = offer.getConfirmedAt();
         this.apiKeyId = offer.getApiKeyId();
 
-        if(this.quotedInBrl) {
+        if (this.quotedInBrl) {
             this.quoteAmount = offer.getQuoteAmount().setScale(8, RoundingMode.HALF_UP);
             this.baseAmount = offer.getBaseAmount().setScale(2, RoundingMode.HALF_UP);
         } else {

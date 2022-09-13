@@ -22,7 +22,7 @@ public class ErrorHandler {
 
 	private static final org.slf4j.Logger log = LoggerFactory.getLogger(ErrorHandler.class);
 
-	@ExceptionHandler({ BiscointApiException.class })
+	@ExceptionHandler({BiscointApiException.class})
 	public ResponseEntity<Object> biscointErrorHandler(BiscointApiException ex, WebRequest request) {
 		log.error(ex.getMessage());
 		
@@ -36,7 +36,7 @@ public class ErrorHandler {
 		return ResponseEntity.status(ex.getStatusResponse()).body(errorResponse);
 	}
 
-	@ExceptionHandler({ InvalidDataAccessApiUsageException.class })
+	@ExceptionHandler({InvalidDataAccessApiUsageException.class})
 	public ResponseEntity<Object> invalidDataAccessErrorHandler(InvalidDataAccessApiUsageException ex,
 			WebRequest request) {
 		log.error(ex.getMessage());

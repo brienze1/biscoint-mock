@@ -21,8 +21,8 @@ public class AuthorizeRequestUseCase {
 		String apiSecret = credentialRepository.getSecret(apiKey);
 		
 		String signValidation = tokenService.signToken(body, path, nonce, apiSecret);
-		
-		if(!signValidation.equals(sign)) {
+
+		if (!signValidation.equals(sign)) {
 			throw new AuthenticationException("Unauthorized");
 		}
 	}

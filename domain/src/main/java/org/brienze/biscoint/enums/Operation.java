@@ -24,4 +24,3 @@ public enum Operation {
         return null;
     }
 }
-
