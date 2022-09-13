@@ -76,13 +76,11 @@ public class OfferEntity {
         setQuoteAmount(offer.getQuoteAmount());
         setCreatedAt(offer.getCreatedAt());
         setExpiresAt(offer.getExpiresAt());
-        setExpiresAt(offer.getExpiresAt());
         setConfirmedAt(offer.getConfirmedAt());
         setApiKeyId(offer.getApiKeyId());
     }
 
     public OfferEntity() {
-
     }
 
     public void setOfferId(String offerId) {

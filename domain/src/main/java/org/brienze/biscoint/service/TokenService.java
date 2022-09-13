@@ -3,7 +3,6 @@ package org.brienze.biscoint.service;
 import org.brienze.biscoint.adapter.Base64EncoderAdapter;
 import org.brienze.biscoint.adapter.Sha384EncoderAdapter;
 import org.brienze.biscoint.adapter.StringUtilsAdapter;
-import org.brienze.biscoint.exception.AuthenticationException;
 import org.brienze.biscoint.validator.Validators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,12 +25,7 @@ public class TokenService {
         Validators.validateNotEmpty(nonce, "Nonce cannot be empty");
         Validators.validateNotEmpty(secret, "Secret cannot be empty");
 
-        String bodyString;
-        try {
-            bodyString = stringUtils.parseToString(body);
-        } catch (Exception e) {
-            throw new AuthenticationException(e.getMessage());
-        }
+        String bodyString = stringUtils.parseToString(body);
 
         String signString = path + nonce + bodyString
                 .replace("\\\"", "\"")

@@ -14,56 +14,50 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RequestWrapper extends HttpServletRequestWrapper {
 
-	private String body;
+    private final String body;
 
-	public RequestWrapper(HttpServletRequest request) throws IOException {
-		super(request);
+    public RequestWrapper(HttpServletRequest request) throws IOException {
+        super(request);
 
-		StringBuilder sb = new StringBuilder();
-		String line;
-		BufferedReader reader = request.getReader();
-		while ((line = reader.readLine()) != null) {
-			sb.append(line);
-		}
-		String body = sb.toString();
+        StringBuilder sb = new StringBuilder();
+        String line;
+        BufferedReader reader = request.getReader();
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
+        String body = sb.toString();
 
-		ObjectMapper mapper = new ObjectMapper();
-		this.body = mapper.writeValueAsString(mapper.readTree(body.getBytes(StandardCharsets.UTF_8)));
-	}
+        ObjectMapper mapper = new ObjectMapper();
+        this.body = mapper.writeValueAsString(mapper.readTree(body.getBytes(StandardCharsets.UTF_8)));
+    }
 
-	public String getBody() {
-		return body;
-	} 
-	
-	@Override  
-	public ServletInputStream getInputStream () throws IOException {          
-	    final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body.getBytes());
+    public String getBody() {
+        return body;
+    }
 
-	    ServletInputStream inputStream = new ServletInputStream() {  
-	        public int read () throws IOException {  
-	            return byteArrayInputStream.read();  
-	        }
+    @Override
+    public ServletInputStream getInputStream() throws IOException {
+        final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body.getBytes());
 
-			@Override
-			public boolean isFinished() {
-				// TODO Auto-generated method stub
-				return false;
-			}
+        return new ServletInputStream() {
+            public int read() throws IOException {
+                return byteArrayInputStream.read();
+            }
 
-			@Override
-			public boolean isReady() {
-				// TODO Auto-generated method stub
-				return false;
-			}
+            @Override
+            public boolean isFinished() {
+                return false;
+            }
 
-			@Override
-			public void setReadListener(ReadListener listener) {
-				// TODO Auto-generated method stub
-				
-			}  
-	    };
+            @Override
+            public boolean isReady() {
+                return false;
+            }
 
-	    return inputStream;  
-	}
-	
+            @Override
+            public void setReadListener(ReadListener listener) {
+            }
+        };
+    }
+
 }

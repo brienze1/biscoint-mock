@@ -49,8 +49,6 @@ public class CreateOfferTestSteps {
     @Autowired
     private BiscointMock biscointMock;
 
-    private String quote;
-
     @Given("the current bitcoin unitary {string} value is {double}")
     public void theCurrentBitcoinUnitaryValueIs(String operation, double btcUnitaryValue) {
         if (operation.equalsIgnoreCase(Operation.BUY.name())) {
@@ -67,14 +65,15 @@ public class CreateOfferTestSteps {
 
     @When("an offer is created to {string} {double} {string}")
     public void anOfferIsCreatedTo(String operation, double value, String quote) {
-        this.quote = quote;
+        Context.getInstance().set("quote", quote);
 
         OfferRequestDto offerRequestDto = new OfferRequestDto();
         offerRequestDto.setAmount(BigDecimal.valueOf(value));
         offerRequestDto.setOperation(operation);
         offerRequestDto.setQuotedOnBrl(quote.equalsIgnoreCase(Quote.BRL.name()));
 
-        Context.getInstance().set("token", signTokenUseCase.signToken(offerRequestDto,
+        Context.getInstance().set("token", signTokenUseCase.signToken(
+                offerRequestDto,
                 CREATE_OFFER_PATH,
                 NONCE,
                 Context.getInstance().get("api_secret", String.class)));
@@ -93,6 +92,7 @@ public class CreateOfferTestSteps {
                     HttpMethod.POST,
                     httpEntity,
                     OfferResponseDto.class);
+
             Context.getInstance().set("response_status", response.getStatusCodeValue());
             Context.getInstance().set("response", response);
         } catch (HttpClientErrorException ex) {
@@ -119,7 +119,7 @@ public class CreateOfferTestSteps {
         Assert.assertEquals(response.getOffer().getExpiresAt(), offerEntity.get().toOffer().getExpiresAt());
         Assert.assertEquals(response.getOffer().getApiKeyId(), offerEntity.get().toOffer().getApiKeyId());
 
-        if (this.quote.equalsIgnoreCase(Quote.BRL.name())) {
+        if (Context.getInstance().get("quote", String.class).equalsIgnoreCase(Quote.BRL.name())) {
             Assert.assertEquals(response.getOffer().getBaseAmount(), offerEntity.get().toOffer().getBaseAmount().setScale(2, RoundingMode.HALF_UP));
             Assert.assertEquals(response.getOffer().getQuoteAmount(), offerEntity.get().toOffer().getQuoteAmount().setScale(8, RoundingMode.HALF_UP));
         } else {

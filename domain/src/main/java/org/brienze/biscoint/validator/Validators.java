@@ -33,8 +33,4 @@ public class Validators {
 		Optional.ofNullable(value).filter(v -> v.doubleValue() >= 0).orElseThrow(() -> new ValidationException(message));
 	}
 
-	public static void validateDouble(String doubleValue, String message) {
-		Optional.ofNullable(doubleValue).filter(new DoubleValueSpecification()).orElseThrow(() -> new ValidationException(message));
-	}
-
 }

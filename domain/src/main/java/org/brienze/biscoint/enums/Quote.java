@@ -8,8 +8,4 @@ public enum Quote {
         return quotedOnBrl ? Quote.BRL : Quote.BTC;
     }
 
-    public Quote getBase() {
-        return this.equals(Quote.BRL) ? Quote.BTC : Quote.BRL;
-    }
-
 }

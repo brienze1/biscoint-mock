@@ -31,7 +31,7 @@ public class ErrorHandler {
 		errorResponse.put("timestamp", LocalDateTime.now().format(FORMATTER));
 		errorResponse.put("status", ex.getStatusResponse().value());
 		errorResponse.put("error", ex.getMessageResponse());
-		errorResponse.put("path", ((ServletWebRequest) request).getRequest().getRequestURI().toString());
+		errorResponse.put("path", ((ServletWebRequest) request).getRequest().getRequestURI());
 		
 		return ResponseEntity.status(ex.getStatusResponse()).body(errorResponse);
 	}
@@ -46,7 +46,7 @@ public class ErrorHandler {
 		errorResponse.put("timestamp", LocalDateTime.now().format(FORMATTER));
 		errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
 		errorResponse.put("error", "Request malformed.");
-		errorResponse.put("path", ((ServletWebRequest) request).getRequest().getRequestURI().toString());
+		errorResponse.put("path", ((ServletWebRequest) request).getRequest().getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}

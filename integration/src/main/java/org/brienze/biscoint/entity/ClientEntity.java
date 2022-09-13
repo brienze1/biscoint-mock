@@ -58,14 +58,6 @@ public class ClientEntity {
         this.brlBalance = brlBalance;
     }
 
-    public String getApiKey() {
-        return apiKey;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public BigDecimal getBitcoinBalance() {
         return bitcoinBalance;
     }
