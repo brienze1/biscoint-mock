@@ -14,6 +14,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
@@ -61,13 +62,17 @@ public class GetTokenTestSteps {
 
             HttpEntity<?> httpEntity = new HttpEntity<>(payload, headers);
 
-            Context.getInstance().set("response", restTemplate.exchange(
+            ResponseEntity<TokenResponseDto> response = restTemplate.exchange(
                     "http://localhost:" + this.serverPort + "/v1/auth",
                     HttpMethod.POST,
                     httpEntity,
-                    TokenResponseDto.class));
-        } catch (Exception ex) {
-            Context.getInstance().set("exception", ex);
+                    TokenResponseDto.class);
+
+            Context.getInstance().set("response_status", response.getStatusCodeValue());
+            Context.getInstance().set("response", response);
+        } catch (HttpClientErrorException ex) {
+            Context.getInstance().set("response_exception", ex);
+            Context.getInstance().set("response_status", ex.getRawStatusCode());
         }
     }
 

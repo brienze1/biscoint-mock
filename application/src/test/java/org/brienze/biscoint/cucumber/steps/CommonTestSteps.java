@@ -3,7 +3,6 @@ package org.brienze.biscoint.cucumber.steps;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.brienze.biscoint.cucumber.context.Context;
@@ -14,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.web.client.HttpClientErrorException;
 
 @SpringBootTest
 public class CommonTestSteps {
@@ -38,8 +38,8 @@ public class CommonTestSteps {
     }
 
     @Then("the return status code should be {int}")
-    public void theReturnStatusCodeShouldBe(int statusCode) {
-        Assert.assertEquals(statusCode, Context.getInstance().get("response", ResponseEntity.class).getStatusCodeValue());
+    public void theReturnStatusCodeShouldBe(Integer statusCode) {
+        Assert.assertEquals(statusCode, Context.getInstance().get("response_status", Integer.class));
     }
 
     @Then("the return body should not be null")
@@ -86,12 +86,20 @@ public class CommonTestSteps {
         Assert.assertFalse(field);
     }
 
-    @And("the field {string} should be true")
+    @Then("the field {string} should be true")
     public void theFieldShouldBeTrue(String fieldName) throws JsonProcessingException {
         Boolean field = getField(fieldName, Boolean.class);
 
         Assert.assertNotNull(field);
         Assert.assertTrue(field);
+    }
+
+    @Then("the error message should be {string}")
+    public void theErrorMessageShouldBe(String errorMessage) {
+        HttpClientErrorException ex = Context.getInstance().get("response_exception", HttpClientErrorException.class);
+
+        Assert.assertNotNull(ex);
+        Assert.assertTrue(ex.getResponseBodyAsString().contains(errorMessage));
     }
 
     private <T> T getField(String composedFieldName, Class<T> clazz) throws JsonProcessingException {

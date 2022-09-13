@@ -53,13 +53,19 @@ public class OfferDto {
         this.quote = offer.getQuote().name().toUpperCase();
         this.operation = offer.getOperation().getName().toLowerCase();
         this.quotedInBrl = offer.getQuotedInBrl();
-        this.baseAmount = offer.getBaseAmount().setScale(8, RoundingMode.HALF_UP);
         this.unitaryValue = offer.getUnitaryValue().setScale(2, RoundingMode.HALF_UP);
-        this.quoteAmount = offer.getQuoteAmount().setScale(2, RoundingMode.HALF_UP);
         this.createdAt = offer.getCreatedAt();
         this.expiresAt = offer.getExpiresAt();
         this.confirmedAt = offer.getConfirmedAt();
         this.apiKeyId = offer.getApiKeyId();
+
+        if(this.quotedInBrl) {
+            this.quoteAmount = offer.getQuoteAmount().setScale(8, RoundingMode.HALF_UP);
+            this.baseAmount = offer.getBaseAmount().setScale(2, RoundingMode.HALF_UP);
+        } else {
+            this.quoteAmount = offer.getQuoteAmount().setScale(2, RoundingMode.HALF_UP);
+            this.baseAmount = offer.getBaseAmount().setScale(8, RoundingMode.HALF_UP);
+        }
     }
 
     public OfferDto() {

@@ -1,6 +1,7 @@
 package org.brienze.biscoint.cucumber.steps;
 
-import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.brienze.biscoint.cucumber.context.Context;
 import org.brienze.biscoint.cucumber.mock.BiscointMock;
@@ -19,11 +20,13 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @SpringBootTest
 public class CreateOfferTestSteps {
@@ -48,6 +51,20 @@ public class CreateOfferTestSteps {
 
     private String quote;
 
+    @Given("the current bitcoin unitary {string} value is {double}")
+    public void theCurrentBitcoinUnitaryValueIs(String operation, double btcUnitaryValue) {
+        if (operation.equalsIgnoreCase(Operation.BUY.name())) {
+            biscointMock.setBtcUnitaryBuyValue(BigDecimal.valueOf(btcUnitaryValue));
+        } else {
+            biscointMock.setBtcUnitarySellValue(BigDecimal.valueOf(btcUnitaryValue));
+        }
+    }
+
+    @Given("the offer db is empty")
+    public void theOfferDbIsEmpty() {
+        offerRepository.deleteAll();
+    }
+
     @When("an offer is created to {string} {double} {string}")
     public void anOfferIsCreatedTo(String operation, double value, String quote) {
         this.quote = quote;
@@ -71,17 +88,20 @@ public class CreateOfferTestSteps {
 
             HttpEntity<?> httpEntity = new HttpEntity<>(offerRequestDto, headers);
 
-            Context.getInstance().set("response", restTemplate.exchange(
+            ResponseEntity<OfferResponseDto> response = restTemplate.exchange(
                     "http://localhost:" + this.serverPort + "/" + CREATE_OFFER_PATH,
                     HttpMethod.POST,
                     httpEntity,
-                    OfferResponseDto.class));
-        } catch (Exception ex) {
-            Context.getInstance().set("exception", ex);
+                    OfferResponseDto.class);
+            Context.getInstance().set("response_status", response.getStatusCodeValue());
+            Context.getInstance().set("response", response);
+        } catch (HttpClientErrorException ex) {
+            Context.getInstance().set("response_exception", ex);
+            Context.getInstance().set("response_status", ex.getRawStatusCode());
         }
     }
 
-    @And("there should be an offer with the same id in the db")
+    @Then("there should be an offer with the same id in the db")
     public void thereShouldBeAnOfferWithTheSameIdInTheDb() {
         OfferResponseDto response = (OfferResponseDto) Context.getInstance().get("response", ResponseEntity.class).getBody();
         Assert.assertNotNull(response);
@@ -99,7 +119,7 @@ public class CreateOfferTestSteps {
         Assert.assertEquals(response.getOffer().getExpiresAt(), offerEntity.get().toOffer().getExpiresAt());
         Assert.assertEquals(response.getOffer().getApiKeyId(), offerEntity.get().toOffer().getApiKeyId());
 
-        if(this.quote.equals(Quote.BRL.name())) {
+        if (this.quote.equalsIgnoreCase(Quote.BRL.name())) {
             Assert.assertEquals(response.getOffer().getBaseAmount(), offerEntity.get().toOffer().getBaseAmount().setScale(2, RoundingMode.HALF_UP));
             Assert.assertEquals(response.getOffer().getQuoteAmount(), offerEntity.get().toOffer().getQuoteAmount().setScale(8, RoundingMode.HALF_UP));
         } else {
@@ -108,13 +128,11 @@ public class CreateOfferTestSteps {
         }
     }
 
-    @And("the current bitcoin unitary {string} value is {double}")
-    public void theCurrentBitcoinUnitaryValueIs(String operation, double btcUnitaryValue) {
-        if (operation.equalsIgnoreCase(Operation.BUY.name())) {
-            biscointMock.setBtcUnitaryBuyValue(BigDecimal.valueOf(btcUnitaryValue));
-        } else {
-            biscointMock.setBtcUnitarySellValue(BigDecimal.valueOf(btcUnitaryValue));
-        }
+    @Then("there should not be an offer in the db")
+    public void thereShouldNotBeAnOfferInTheDb() {
+        Iterable<OfferEntity> offers = offerRepository.findAll();
+
+        Assert.assertEquals(0, StreamSupport.stream(offers.spliterator(), false).count());
     }
 
 }
