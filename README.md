@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/brienze1/biscoint-mock/branch/main/graph/badge.svg?token=Z6DSMJ621I)](https://codecov.io/gh/brienze1/biscoint-mock)
+
 Template de projeto Clean Architecture para utilizacao em projetos futuros.
 
 Separado em 4 camadas:
