@@ -7,16 +7,16 @@ Feature: Confirm offer feature
     Given the context is clean
     And biscoint url is set correctly
     And the offer db is empty
+    And a client with api_key "api_key_test" and name "luis" exists in clients db
+    And the following data exist in credentials db
+      | api_key    | api_key_test    |
+      | api_secret | api_secret_test |
+    And the current bitcoin unitary "sell" value is 99000.00
+    And the current bitcoin unitary "buy" value is 100000.00
 
   @BuyBtcSuccess
   Scenario: Confirm buy btc offer success
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 10000.0 "brl" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 10000.0 "brl" balance
     When an offer is created to "buy" 0.001 "btc"
     And is confirmed within time
     Then the return status code should be 200
@@ -39,13 +39,7 @@ Feature: Confirm offer feature
 
   @BuyBtcSuccessExactAmount
   Scenario: Confirm buy btc offer success exact amount balance
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 100000.0 "brl" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 100000.0 "brl" balance
     When an offer is created to "buy" 1.0 "btc"
     And is confirmed within time
     Then the return status code should be 200
@@ -68,13 +62,7 @@ Feature: Confirm offer feature
 
   @SellBtcSuccess
   Scenario: Confirm sell btc offer success
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 1.0 "btc" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 1.0 "btc" balance
     When an offer is created to "sell" 0.001 "btc"
     And is confirmed within time
     Then the return status code should be 200
@@ -97,13 +85,7 @@ Feature: Confirm offer feature
 
   @SellBtcSuccessExactAmount
   Scenario: Confirm sell btc offer success exact amount
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 1.0 "btc" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 1.0 "btc" balance
     When an offer is created to "sell" 1.0 "btc"
     And is confirmed within time
     Then the return status code should be 200
@@ -126,13 +108,7 @@ Feature: Confirm offer feature
 
   @BuyBrlSuccess
   Scenario: Confirm buy brl offer success
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 1.0 "btc" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 1.0 "btc" balance
     When an offer is created to "buy" 10000.0 "brl"
     And is confirmed within time
     Then the return status code should be 200
@@ -155,13 +131,7 @@ Feature: Confirm offer feature
 
   @BuyBrlSuccessExactAmount
   Scenario: Confirm buy brl offer success exact amount
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 1.0 "btc" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 1.0 "btc" balance
     When an offer is created to "buy" 99000.0 "brl"
     And is confirmed within time
     Then the return status code should be 200
@@ -184,13 +154,7 @@ Feature: Confirm offer feature
 
   @SellBrlSuccess
   Scenario: Confirm sell brl offer success
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 10000.0 "brl" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 10000.0 "brl" balance
     When an offer is created to "sell" 1000.0 "brl"
     And is confirmed within time
     Then the return status code should be 200
@@ -213,13 +177,7 @@ Feature: Confirm offer feature
 
   @SellBrlSuccessExactAmount
   Scenario: Confirm sell brl offer success exact amount
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 10000.0 "brl" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 10000.0 "brl" balance
     When an offer is created to "sell" 10000.0 "brl"
     And is confirmed within time
     Then the return status code should be 200
@@ -242,13 +200,7 @@ Feature: Confirm offer feature
 
   @ConfirmationFailShortOnBrlBalance
   Scenario: Confirm failure short on brl balance
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 10000.0 "brl" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 10000.0 "brl" balance
     When an offer is created to "sell" 1000.0 "brl"
     And it's id is saved as "firstId"
     And an offer is created to "sell" 10000.0 "brl"
@@ -262,13 +214,7 @@ Feature: Confirm offer feature
 
   @ConfirmationFailShortOnBtcBalance
   Scenario: Confirm failure short on btc balance
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 1.0 "btc" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 1.0 "btc" balance
     When an offer is created to "sell" 0.1 "btc"
     And it's id is saved as "firstId"
     And an offer is created to "sell" 1.0 "btc"
@@ -282,13 +228,7 @@ Feature: Confirm offer feature
 
   @ConfirmationFailOfferExpired
   Scenario: Confirm failure offer expired
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 1.0 "btc" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 1.0 "btc" balance
     When an offer is created to "sell" 0.1 "btc"
     And is not confirmed within time
     Then the return status code should be 400

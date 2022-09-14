@@ -7,16 +7,16 @@ Feature: Create offer feature
     Given the context is clean
     And biscoint url is set correctly
     And the offer db is empty
+    And a client with api_key "api_key_test" and name "luis" exists in clients db
+    And the following data exist in credentials db
+      | api_key    | api_key_test    |
+      | api_secret | api_secret_test |
+    And the current bitcoin unitary "sell" value is 99000.00
+    And the current bitcoin unitary "buy" value is 100000.00
 
   @BuyBtcSuccess
   Scenario: Create buy btc offer success
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 10000.0 "brl" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 10000.0 "brl" balance
     When an offer is created to "buy" 0.001 "btc"
     Then the return status code should be 200
     Then the return body should not be null
@@ -36,13 +36,7 @@ Feature: Create offer feature
 
   @BuyBtcSuccessExactAmount
   Scenario: Create buy btc offer success exact amount balance
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 100000.0 "brl" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 100000.0 "brl" balance
     When an offer is created to "buy" 1.0 "btc"
     Then the return status code should be 200
     Then the return body should not be null
@@ -62,13 +56,7 @@ Feature: Create offer feature
 
   @SellBtcSuccess
   Scenario: Create sell btc offer success
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 1.0 "btc" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 1.0 "btc" balance
     When an offer is created to "sell" 0.001 "btc"
     Then the return status code should be 200
     Then the return body should not be null
@@ -88,13 +76,7 @@ Feature: Create offer feature
 
   @SellBtcSuccessExactAmount
   Scenario: Create sell btc offer success exact amount
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 1.0 "btc" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 1.0 "btc" balance
     When an offer is created to "sell" 1.0 "btc"
     Then the return status code should be 200
     Then the return body should not be null
@@ -114,13 +96,7 @@ Feature: Create offer feature
 
   @BuyBrlSuccess
   Scenario: Create buy brl offer success
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 1.0 "btc" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 1.0 "btc" balance
     When an offer is created to "buy" 10000.0 "brl"
     Then the return status code should be 200
     Then the return body should not be null
@@ -140,13 +116,7 @@ Feature: Create offer feature
 
   @BuyBrlSuccessExactAmount
   Scenario: Create buy brl offer success exact amount
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 1.0 "btc" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 1.0 "btc" balance
     When an offer is created to "buy" 99000.0 "brl"
     Then the return status code should be 200
     Then the return body should not be null
@@ -166,13 +136,7 @@ Feature: Create offer feature
 
   @SellBrlSuccess
   Scenario: Create sell brl offer success
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 10000.0 "brl" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 10000.0 "brl" balance
     When an offer is created to "sell" 1000.0 "brl"
     Then the return status code should be 200
     Then the return body should not be null
@@ -192,13 +156,7 @@ Feature: Create offer feature
 
   @SellBrlSuccessExactAmount
   Scenario: Create sell brl offer success exact amount
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 10000.0 "brl" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 10000.0 "brl" balance
     When an offer is created to "sell" 10000.0 "brl"
     Then the return status code should be 200
     Then the return body should not be null
@@ -218,13 +176,7 @@ Feature: Create offer feature
 
   @BuyBtcFailure
   Scenario: Create buy btc offer failure short on brl balance
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 1000.0 "brl" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 1000.0 "brl" balance
     When an offer is created to "buy" 0.011 "btc"
     Then the return status code should be 400
     And the error message should be "Brl balance cannot be less than transaction value."
@@ -232,13 +184,7 @@ Feature: Create offer feature
 
   @SellBtcFailure
   Scenario: Create sell btc offer failure short on btc balance
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 0.001 "btc" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 0.001 "btc" balance
     When an offer is created to "sell" 0.0011 "btc"
     Then the return status code should be 400
     And the error message should be "Bitcoin balance cannot be less than transaction value."
@@ -246,13 +192,7 @@ Feature: Create offer feature
 
   @BuyBrlFailure
   Scenario: Create buy brl offer failure short on btc balance
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 0.001 "btc" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 0.001 "btc" balance
     When an offer is created to "buy" 10000.0 "brl"
     Then the return status code should be 400
     And the error message should be "Bitcoin balance cannot be less than transaction value."
@@ -260,13 +200,7 @@ Feature: Create offer feature
 
   @SellBrlFailure
   Scenario: Create sell brl offer failure short on brl balance
-    Given the following data exist in credentials db
-      | api_key    | api_key_test    |
-      | api_secret | api_secret_test |
-    And a client with api_key "api_key_test" and name "luis" exists in clients db
-    And the client has 100.00 "brl" balance
-    And the current bitcoin unitary "sell" value is 99000.00
-    And the current bitcoin unitary "buy" value is 100000.00
+    Given the client has 100.00 "brl" balance
     When an offer is created to "sell" 10000.0 "brl"
     Then the return status code should be 400
     And the error message should be "Brl balance cannot be less than transaction value."

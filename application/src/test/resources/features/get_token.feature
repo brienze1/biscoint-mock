@@ -13,7 +13,8 @@ Feature: Token generation test
   5-) Should return the token in json format
 
   Scenario: Get token with success
-    Given the following data exist in credentials db
+    Given a client with api_key "api_key_test" and name "luis" exists in clients db
+    And the following data exist in credentials db
       | api_key    | api_key_test    |
       | api_secret | api_secret_test |
     And the following payload is used
