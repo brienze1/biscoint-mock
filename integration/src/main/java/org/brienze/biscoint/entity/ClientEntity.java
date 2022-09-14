@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.PositiveOrZero;
 
 import org.brienze.biscoint.model.Client;
 
@@ -23,19 +21,15 @@ public class ClientEntity {
     }
 
     @Id
-    @NotEmpty
     @Column(name = "api_key")
     private String apiKey;
 
-    @NotEmpty
     @Column(name = "name")
     private String name;
 
-    @PositiveOrZero
     @Column(name = "bitcoin_balance", columnDefinition = "DECIMAL(16,8)")
     private BigDecimal bitcoinBalance;
 
-    @PositiveOrZero
     @Column(name = "brl_balance")
     private BigDecimal brlBalance;
 

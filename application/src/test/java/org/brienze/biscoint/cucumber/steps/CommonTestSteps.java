@@ -10,7 +10,7 @@ import org.brienze.biscoint.webservice.BiscointWebService;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.HttpClientErrorException;
@@ -34,7 +34,7 @@ public class CommonTestSteps {
 
     @Given("biscoint url is set correctly")
     public void biscointUrlIsSetCorrectly() {
-        ReflectionTestUtils.setField(biscointWebService, "url", "http://localhost:" + serverPort + "v1/ticker");
+        ReflectionTestUtils.setField(biscointWebService, "url", "http://localhost:" + serverPort + "/v1/ticker");
     }
 
     @Then("the return status code should be {int}")

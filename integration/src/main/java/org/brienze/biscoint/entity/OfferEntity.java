@@ -7,10 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
+import com.sun.istack.NotNull;
 import org.brienze.biscoint.enums.Operation;
 import org.brienze.biscoint.enums.Quote;
 import org.brienze.biscoint.model.Offer;
@@ -20,7 +18,6 @@ import org.brienze.biscoint.model.Offer;
 public class OfferEntity {
 
     @Id
-    @NotEmpty
     @Column(name = "offer_id")
     private String offerId;
 
@@ -39,15 +36,12 @@ public class OfferEntity {
     @Column(name = "quoted_in_brl")
     private boolean quotedInBrl;
 
-    @Positive
     @Column(name = "base_amount", columnDefinition = "DECIMAL(16,8)")
     private BigDecimal baseAmount;
 
-    @Positive
     @Column(name = "unitary_value")
     private BigDecimal unitaryValue;
 
-    @Positive
     @Column(name = "quote_amount", columnDefinition = "DECIMAL(16,8)")
     private BigDecimal quoteAmount;
 
@@ -61,7 +55,6 @@ public class OfferEntity {
     @Column(name = "confirmed_at")
     private LocalDateTime confirmedAt;
 
-    @NotEmpty
     @Column(name = "api_key_id")
     private String apiKeyId;
 

@@ -1,19 +1,17 @@
 package org.brienze.biscoint.handler;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.brienze.biscoint.exception.BiscointApiException;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
 public class ErrorHandler {
@@ -34,21 +32,6 @@ public class ErrorHandler {
 		errorResponse.put("path", ((ServletWebRequest) request).getRequest().getRequestURI());
 		
 		return ResponseEntity.status(ex.getStatusResponse()).body(errorResponse);
-	}
-
-	@ExceptionHandler({InvalidDataAccessApiUsageException.class})
-	public ResponseEntity<Object> invalidDataAccessErrorHandler(InvalidDataAccessApiUsageException ex,
-			WebRequest request) {
-		log.error(ex.getMessage());
-
-		Map<String, Object> errorResponse = new HashMap<>();
-
-		errorResponse.put("timestamp", LocalDateTime.now().format(FORMATTER));
-		errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
-		errorResponse.put("error", "Request malformed.");
-		errorResponse.put("path", ((ServletWebRequest) request).getRequest().getRequestURI());
-
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 
 }

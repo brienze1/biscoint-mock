@@ -13,7 +13,7 @@ import org.brienze.biscoint.useCases.SignTokenUseCase;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -98,7 +98,10 @@ public class ConfirmOfferTestSteps {
         ConfirmOfferRequestDto confirmOfferRequestDto = new ConfirmOfferRequestDto();
         confirmOfferRequestDto.setOfferId(offerId);
 
-        Context.getInstance().set("token", signTokenUseCase.signToken(confirmOfferRequestDto, CONFIRM_OFFER_PATH, NONCE, Context.getInstance().get("api_secret", String.class)));
+        Context.getInstance().set("token", signTokenUseCase.signToken(confirmOfferRequestDto,
+                CONFIRM_OFFER_PATH,
+                NONCE,
+                Context.getInstance().get("api_secret", String.class)));
 
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -109,7 +112,11 @@ public class ConfirmOfferTestSteps {
 
             HttpEntity<?> httpEntity = new HttpEntity<>(confirmOfferRequestDto, headers);
 
-            ResponseEntity<OfferResponseDto> response = restTemplate.exchange("http://localhost:" + this.serverPort + "/" + CONFIRM_OFFER_PATH, HttpMethod.POST, httpEntity, OfferResponseDto.class);
+            ResponseEntity<OfferResponseDto> response = restTemplate.exchange(
+                    "http://localhost:" + this.serverPort + "/" + CONFIRM_OFFER_PATH,
+                    HttpMethod.POST,
+                    httpEntity,
+                    OfferResponseDto.class);
 
             Context.getInstance().set("response_status", response.getStatusCodeValue());
             Context.getInstance().set("response", response);
