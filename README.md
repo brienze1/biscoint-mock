@@ -1,3 +1,7 @@
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/brienze1/biscoint-mock/blob/main/LICENSE)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/brienze1/biscoint-mock)
+![Build](https://img.shields.io/github/workflow/status/brienze1/biscoint-mock/Build?label=Build)
 [![codecov](https://codecov.io/gh/brienze1/biscoint-mock/branch/main/graph/badge.svg?token=Z6DSMJ621I)](https://codecov.io/gh/brienze1/biscoint-mock)
 
 Template de projeto Clean Architecture para utilizacao em projetos futuros.
