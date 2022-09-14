@@ -20,6 +20,4 @@ spring:
 # ======= biscoint =======
 # secrets
 biscoint.api:
-  key: ${BISCOINT_API_KEY}
-  secret: ${BISCOINT_API_SECRET}
   url.get.value: https://api.biscoint.io/v1/ticker
