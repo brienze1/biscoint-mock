@@ -232,8 +232,8 @@ The project was created using Clean Architecture and is divided into 4 modules:
 * [ ] Implement Unit tests
 * [X] Implement application logic
 * [X] Add maven wrapper to run mvn commands locally
-* [ ] Create Dockerfile
-* [ ] Document everything in Readme
+* [X] Create Dockerfile
+* [X] Document everything in Readme
 * [ ] Add logger lib and logs
 
 <p style="text-align: right">(<a href="#top">back to top</a>)</p>
@@ -298,10 +298,18 @@ The project was created using Clean Architecture and is divided into 4 modules:
 - And then run the new created image:
     - Windows/macOS/Linux/WSL
       ```bash
-      docker run --network="host" -d -it -e SPRING_PROFILES_ACTIVE=docker biscoint-mock:latest bash -c \
+      docker run -p 8080:8080 -d -it -e SPRING_PROFILES_ACTIVE=docker biscoint-mock:latest bash -c \
       "java -jar application/target/biscoint-mock.jar"
       ```
 
+- Send requests using external tools ([postman](https://www.postman.com/) for example)
+
+- To stop the application:
+    - Windows/macOS/Linux/WSL
+      ```bash
+      docker rm $(docker stop $(docker ps -a -q --filter ancestor=biscoint-mock:latest --format="{{.ID}}"))
+      ```
+      
 ### Testing
 
 - To run the tests just type the command bellow in terminal:
