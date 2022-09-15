@@ -66,18 +66,30 @@
 	</dependencies>
 
 	<build>
-		<finalName>biscoint-mock-${version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.1.9.RELEASE</version>
+				<version>2.7.3</version>
 				<configuration>
 					<mainClass>org.brienze.biscoint.Application</mainClass>
 					<layout>JAR</layout>
 				</configuration>
 				<executions>
 					<execution>
+						<id>1</id>
+						<configuration>
+							<finalName>biscoint-mock</finalName>
+						</configuration>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>2</id>
+						<configuration>
+							<finalName>biscoint-mock-${project.version}</finalName>
+						</configuration>
 						<goals>
 							<goal>repackage</goal>
 						</goals>

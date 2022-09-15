@@ -279,9 +279,10 @@ The project was created using Clean Architecture and is divided into 4 modules:
 - Start the compiled application:
     - Windows/macOS/Linux/WSL
       ```bash
-      java -jar ./application/target/crypto-robot-analysis-generator.jar --spring.profiles.active=local
+      java -jar ./application/target/biscoint-mock.jar
       ```
 
+- Send requests using external tools ([postman](https://www.postman.com/) for example)
 - To stop the application just press Ctrl+C
 
 #### Docker Input
@@ -291,14 +292,14 @@ The project was created using Clean Architecture and is divided into 4 modules:
 - Note: This may take a while to build (close to 5 min)
     - Windows/macOS/Linux/WSL
       ```bash
-      docker build -t crypto-robot-data-analysis-gen .
+      docker build -t biscoint-mock .
       ```
 
 - And then run the new created image:
     - Windows/macOS/Linux/WSL
       ```bash
-      docker run --network="host" -d -it -e SPRING_PROFILES_ACTIVE=docker crypto-robot-data-analysis-gen:latest bash -c \
-      "java -jar application/target/crypto-robot-analysis-generator.jar --spring.profiles.active=docker"
+      docker run --network="host" -d -it -e SPRING_PROFILES_ACTIVE=docker biscoint-mock:latest bash -c \
+      "java -jar application/target/biscoint-mock.jar"
       ```
 
 ### Testing
