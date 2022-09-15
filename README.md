@@ -101,6 +101,8 @@ BSCNT-SIGN:92d9cf2b82780e86aa117956ec725c119490657b8e97132144f062bade949a8185e22
 Client balance can be retrieved by sending a `POST` request at `v1/balance`. There is no input required, so an empty
 body must be sent.
 
+Obs: I'm aware that this method should be a `GET` action, but the implementation must match the real Biscoint APIs.
+
 ```json
 {}
 ```
