@@ -66,6 +66,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>biscoint-mock-${version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

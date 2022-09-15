@@ -205,14 +205,15 @@ The project was created using Clean Architecture and is divided into 4 modules:
 #### Dependencies
 
 * [Spring Boot](https://spring.io/projects/spring-boot) Used as framework for application
-* [Spring WebFlux](https://www.baeldung.com/spring-aop) Used to integrate web related dependencies for API calls
 * [Spring Web](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web): Used to create
   Rest endpoints
+* [Spring Data](https://spring.io/projects/spring-data) Used to integrate web related dependencies for API calls
+* [H2](https://www.h2database.com/html/main.html) Used to integrate web related dependencies for API calls
+* [Commons Codec](https://commons.apache.org/proper/commons-codec/) Used to encrypt the authorization token
 
 #### Test Dependencies
 
 * [Junit4](https://github.com/junit-team/junit4): Used to run integration tests
-* [AssertJ](https://assertj.github.io/doc/): Used to make assertions during tests
 * [Cucumber](https://cucumber.io/docs/installation/java/): Used to integrate Gherkin with Java and run integration tests
 * [Spring Test](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test): Spring test
   dependencies
@@ -223,7 +224,7 @@ The project was created using Clean Architecture and is divided into 4 modules:
   to package spring boot application into runnable jar
 * [Maven Surefire Plugin](https://maven.apache.org/surefire/maven-surefire-plugin/): Used to configure test logs
 * [Maven Failsafe Plugin](https://maven.apache.org/surefire/maven-failsafe-plugin/): Used to configure tests
-* [Jacoco Plugin](https://maven.apache.org/surefire/maven-failsafe-plugin/): Used to generate coverage reports
+* [Jacoco Plugin](https://www.jacoco.org/jacoco/): Used to generate coverage reports
 
 ### Roadmap
 
