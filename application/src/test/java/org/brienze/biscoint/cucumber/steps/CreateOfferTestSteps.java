@@ -11,7 +11,7 @@ import org.brienze.biscoint.entity.OfferEntity;
 import org.brienze.biscoint.enums.Operation;
 import org.brienze.biscoint.enums.Quote;
 import org.brienze.biscoint.repository.OfferRepository;
-import org.brienze.biscoint.useCases.SignTokenUseCase;
+import org.brienze.biscoint.useCases.ClientUseCase;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,7 +38,7 @@ public class CreateOfferTestSteps {
     private int serverPort;
 
     @Autowired
-    private SignTokenUseCase signTokenUseCase;
+    private ClientUseCase signTokenUseCase;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -78,27 +78,21 @@ public class CreateOfferTestSteps {
                 NONCE,
                 Context.getInstance().get("api_secret", String.class)));
 
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("BSCNT-NONCE", NONCE);
-            headers.add("BSCNT-APIKEY", Context.getInstance().get("api_key", String.class));
-            headers.add("BSCNT-SIGN", Context.getInstance().get("token", String.class));
-            headers.add("Content-Type", "application/json");
+        createOffer(offerRequestDto);
+    }
 
-            HttpEntity<?> httpEntity = new HttpEntity<>(offerRequestDto, headers);
+    @When("an offer is created to {string} {double} {string} without token")
+    public void anOfferIsCreatedToWithoutToken(String operation, double value, String quote) {
+        Context.getInstance().set("quote", quote);
 
-            ResponseEntity<OfferResponseDto> response = restTemplate.exchange(
-                    "http://localhost:" + this.serverPort + "/" + CREATE_OFFER_PATH,
-                    HttpMethod.POST,
-                    httpEntity,
-                    OfferResponseDto.class);
+        OfferRequestDto offerRequestDto = new OfferRequestDto();
+        offerRequestDto.setAmount(BigDecimal.valueOf(value));
+        offerRequestDto.setOperation(operation);
+        offerRequestDto.setQuotedOnBrl(quote.equalsIgnoreCase(Quote.BRL.name()));
 
-            Context.getInstance().set("response_status", response.getStatusCodeValue());
-            Context.getInstance().set("response", response);
-        } catch (HttpClientErrorException ex) {
-            Context.getInstance().set("response_exception", ex);
-            Context.getInstance().set("response_status", ex.getRawStatusCode());
-        }
+        Context.getInstance().set("token", "");
+
+        createOffer(offerRequestDto);
     }
 
     @Then("there should be an offer with the same id in the db")
@@ -133,6 +127,31 @@ public class CreateOfferTestSteps {
         Iterable<OfferEntity> offers = offerRepository.findAll();
 
         Assert.assertEquals(0, StreamSupport.stream(offers.spliterator(), false).count());
+    }
+
+
+    private void createOffer(OfferRequestDto offerRequestDto) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("BSCNT-NONCE", NONCE);
+            headers.add("BSCNT-APIKEY", Context.getInstance().get("api_key", String.class));
+            headers.add("BSCNT-SIGN", Context.getInstance().get("token", String.class));
+            headers.add("Content-Type", "application/json");
+
+            HttpEntity<?> httpEntity = new HttpEntity<>(offerRequestDto, headers);
+
+            ResponseEntity<OfferResponseDto> response = restTemplate.exchange(
+                    "http://localhost:" + this.serverPort + "/" + CREATE_OFFER_PATH,
+                    HttpMethod.POST,
+                    httpEntity,
+                    OfferResponseDto.class);
+
+            Context.getInstance().set("response_status", response.getStatusCodeValue());
+            Context.getInstance().set("response", response);
+        } catch (HttpClientErrorException ex) {
+            Context.getInstance().set("response_exception", ex);
+            Context.getInstance().set("response_status", ex.getRawStatusCode());
+        }
     }
 
 }

@@ -235,3 +235,12 @@ Feature: Confirm offer feature
     And the error message should be "Offer expired."
     And the client "brl" balance should be equal 0.0
     And the client "btc" balance should be equal 1.0
+
+
+  @ConfirmationOfferAuthorizationFailure
+  Scenario: Confirm offer authorization failure
+    Given the client has 1.0 "btc" balance
+    When an offer is created to "sell" 0.1 "btc"
+    And is confirmed within time without token
+    Then the return status code should be 403
+    And the error message should be "Unauthorized."

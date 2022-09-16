@@ -28,4 +28,3 @@ Feature: Token generation test
     When the token is generated
     Then the return status code should be 200
     And the token should be equal "93b31149c0f049666a3298faaf86c5218da322cfc7b570ab3339543d18f6b9a98a86bb570d8ddd55615a5e00fcdb95c9"
-

@@ -41,6 +41,7 @@ public class ApplicationConfig {
         registrationBean.setFilter(authorizationValidatorFilter);
         registrationBean.addUrlPatterns("/v1/offer");
         registrationBean.addUrlPatterns("/v1/offer/confirm");
+        registrationBean.addUrlPatterns("/v1/balance");
 
         return registrationBean;
     }

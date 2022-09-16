@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetBitcoinUnitaryValueUseCase {
+public class BitcoinUseCase {
 	
 	@Autowired
 	private BiscointWebServiceAdapter biscointWebServiceAdapter;
 
-	public BigDecimal getvalue(Operation operation, Quote quotedOn) {
+	public BigDecimal getUnitaryValue(Operation operation, Quote quotedOn) {
 		Bitcoin bitcoin = biscointWebServiceAdapter.getBitcoinUnitaryValue();
 		
 		return bitcoin.getValueForOperation(operation, quotedOn);

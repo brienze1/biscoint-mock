@@ -1,6 +1,7 @@
 package org.brienze.biscoint.cucumber.steps;
 
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
 import org.brienze.biscoint.cucumber.context.Context;
 import org.brienze.biscoint.dto.ConfirmOfferRequestDto;
 import org.brienze.biscoint.dto.OfferResponseDto;
@@ -9,7 +10,7 @@ import org.brienze.biscoint.entity.OfferEntity;
 import org.brienze.biscoint.enums.Quote;
 import org.brienze.biscoint.repository.ClientRepository;
 import org.brienze.biscoint.repository.OfferRepository;
-import org.brienze.biscoint.useCases.SignTokenUseCase;
+import org.brienze.biscoint.useCases.ClientUseCase;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,7 +38,7 @@ public class ConfirmOfferTestSteps {
     private int serverPort;
 
     @Autowired
-    private SignTokenUseCase signTokenUseCase;
+    private ClientUseCase signTokenUseCase;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -47,27 +48,6 @@ public class ConfirmOfferTestSteps {
 
     @Autowired
     private OfferRepository offerRepository;
-
-    @Given("is confirmed within time")
-    public void isConfirmedWithinTime() {
-        OfferResponseDto offerRequestDto = (OfferResponseDto) Context.getInstance().get("response", ResponseEntity.class).getBody();
-        Assert.assertNotNull(offerRequestDto);
-
-        confirmOffer(offerRequestDto.getOffer().getOfferId());
-    }
-
-    @Given("is not confirmed within time")
-    public void isNotConfirmedWithinTime() {
-        OfferResponseDto offerRequestDto = (OfferResponseDto) Context.getInstance().get("response", ResponseEntity.class).getBody();
-        Assert.assertNotNull(offerRequestDto);
-
-        OfferEntity offerEntity = offerRepository.findById(offerRequestDto.getOffer().getOfferId()).orElseThrow(() -> new RuntimeException("offer is null"));
-        Assert.assertNotNull(offerEntity);
-        offerEntity.setExpiresAt(LocalDateTime.now().minus(Duration.ofSeconds(30)));
-        offerRepository.save(offerEntity);
-
-        confirmOffer(offerRequestDto.getOffer().getOfferId());
-    }
 
     @Given("the client {string} balance should be equal {double}")
     public void theClientBalanceShouldBeEqual(String quote, double balance) {
@@ -81,7 +61,70 @@ public class ConfirmOfferTestSteps {
         }
     }
 
-    @Given("it's id is saved as {string}")
+    @When("is confirmed within time")
+    public void isConfirmedWithinTime() {
+        OfferResponseDto offerRequestDto = (OfferResponseDto) Context.getInstance().get("response", ResponseEntity.class).getBody();
+        Assert.assertNotNull(offerRequestDto);
+
+        ConfirmOfferRequestDto confirmOfferRequestDto = new ConfirmOfferRequestDto();
+        confirmOfferRequestDto.setOfferId(offerRequestDto.getOffer().getOfferId());
+
+        Context.getInstance().set("token", signTokenUseCase.signToken(confirmOfferRequestDto,
+                CONFIRM_OFFER_PATH,
+                NONCE,
+                Context.getInstance().get("api_secret", String.class)));
+
+        confirmOffer(confirmOfferRequestDto);
+    }
+
+    @When("{string} is confirmed within time")
+    public void isConfirmedWithinTime(String idTag) {
+        ConfirmOfferRequestDto confirmOfferRequestDto = new ConfirmOfferRequestDto();
+        confirmOfferRequestDto.setOfferId(Context.getInstance().get(idTag, String.class));
+
+        Context.getInstance().set("token", signTokenUseCase.signToken(confirmOfferRequestDto,
+                CONFIRM_OFFER_PATH,
+                NONCE,
+                Context.getInstance().get("api_secret", String.class)));
+
+        confirmOffer(confirmOfferRequestDto);
+    }
+
+    @When("is not confirmed within time")
+    public void isNotConfirmedWithinTime() {
+        OfferResponseDto offerRequestDto = (OfferResponseDto) Context.getInstance().get("response", ResponseEntity.class).getBody();
+        Assert.assertNotNull(offerRequestDto);
+
+        OfferEntity offerEntity = offerRepository.findById(offerRequestDto.getOffer().getOfferId()).orElseThrow(() -> new RuntimeException("offer is null"));
+        Assert.assertNotNull(offerEntity);
+        offerEntity.setExpiresAt(LocalDateTime.now().minus(Duration.ofSeconds(30)));
+        offerRepository.save(offerEntity);
+
+        ConfirmOfferRequestDto confirmOfferRequestDto = new ConfirmOfferRequestDto();
+        confirmOfferRequestDto.setOfferId(offerRequestDto.getOffer().getOfferId());
+
+        Context.getInstance().set("token", signTokenUseCase.signToken(confirmOfferRequestDto,
+                CONFIRM_OFFER_PATH,
+                NONCE,
+                Context.getInstance().get("api_secret", String.class)));
+
+        confirmOffer(confirmOfferRequestDto);
+    }
+
+    @When("is confirmed within time without token")
+    public void isConfirmedWithinTimeWithoutToken() {
+        OfferResponseDto offerRequestDto = (OfferResponseDto) Context.getInstance().get("response", ResponseEntity.class).getBody();
+        Assert.assertNotNull(offerRequestDto);
+
+        ConfirmOfferRequestDto confirmOfferRequestDto = new ConfirmOfferRequestDto();
+        confirmOfferRequestDto.setOfferId(offerRequestDto.getOffer().getOfferId());
+
+        Context.getInstance().set("token", "");
+
+        confirmOffer(confirmOfferRequestDto);
+    }
+
+    @When("it's id is saved as {string}")
     public void itSIdIsSavedAs(String idTag) {
         OfferResponseDto offerRequestDto = (OfferResponseDto) Context.getInstance().get("response", ResponseEntity.class).getBody();
         Assert.assertNotNull(offerRequestDto);
@@ -89,20 +132,7 @@ public class ConfirmOfferTestSteps {
         Context.getInstance().set(idTag, offerRequestDto.getOffer().getOfferId());
     }
 
-    @Given("{string} is confirmed within time")
-    public void isConfirmedWithinTime(String idTag) {
-        confirmOffer(Context.getInstance().get(idTag, String.class));
-    }
-
-    public void confirmOffer(String offerId) {
-        ConfirmOfferRequestDto confirmOfferRequestDto = new ConfirmOfferRequestDto();
-        confirmOfferRequestDto.setOfferId(offerId);
-
-        Context.getInstance().set("token", signTokenUseCase.signToken(confirmOfferRequestDto,
-                CONFIRM_OFFER_PATH,
-                NONCE,
-                Context.getInstance().get("api_secret", String.class)));
-
+    public void confirmOffer(ConfirmOfferRequestDto confirmOfferRequestDto) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.add("BSCNT-NONCE", NONCE);

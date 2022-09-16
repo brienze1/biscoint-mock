@@ -205,3 +205,11 @@ Feature: Create offer feature
     Then the return status code should be 400
     And the error message should be "Brl balance cannot be less than transaction value."
     And there should not be an offer in the db
+
+  @CreateOfferAuthorizationFailure
+  Scenario: Create offer authorization failure
+    Given the client has 100.00 "brl" balance
+    When an offer is created to "sell" 10000.0 "brl" without token
+    Then the return status code should be 403
+    And the error message should be "Unauthorized."
+    And there should not be an offer in the db
