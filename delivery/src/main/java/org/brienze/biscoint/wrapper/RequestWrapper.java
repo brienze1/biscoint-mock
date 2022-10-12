@@ -27,8 +27,12 @@ public class RequestWrapper extends HttpServletRequestWrapper {
         }
         String body = sb.toString();
 
-        ObjectMapper mapper = new ObjectMapper();
-        this.body = mapper.writeValueAsString(mapper.readTree(body.getBytes(StandardCharsets.UTF_8)));
+        if (body.isBlank()) {
+            this.body = "{}";
+        } else {
+            ObjectMapper mapper = new ObjectMapper();
+            this.body = mapper.writeValueAsString(mapper.readTree(body.getBytes(StandardCharsets.UTF_8)));
+        }
     }
 
     public String getBody() {

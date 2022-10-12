@@ -11,14 +11,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BitcoinUseCase {
-	
-	@Autowired
-	private BiscointWebServiceAdapter biscointWebServiceAdapter;
 
-	public BigDecimal getUnitaryValue(Operation operation, Quote quotedOn) {
-		Bitcoin bitcoin = biscointWebServiceAdapter.getBitcoinUnitaryValue();
-		
-		return bitcoin.getValueForOperation(operation, quotedOn);
-	}
+    @Autowired
+    private BiscointWebServiceAdapter biscointWebServiceAdapter;
+
+    public BigDecimal getUnitaryValue(Operation operation, Quote quotedOn) {
+        Bitcoin bitcoin = biscointWebServiceAdapter.getBitcoinUnitaryValue();
+
+        return bitcoin.getValueForOperation(operation, quotedOn);
+    }
+
+    public Bitcoin getUnitaryValue() {
+        return biscointWebServiceAdapter.getBitcoinUnitaryValue();
+    }
 
 }

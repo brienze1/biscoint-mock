@@ -15,6 +15,18 @@ public class BitcoinDto {
     @JsonProperty("quote")
     private Quote quote;
 
+    @JsonProperty("vol")
+    private BigDecimal vol;
+
+    @JsonProperty("low")
+    private BigDecimal low;
+
+    @JsonProperty("high")
+    private BigDecimal high;
+
+    @JsonProperty("last")
+    private BigDecimal last;
+
     @JsonProperty("ask")
     private BigDecimal buyValue;
 
@@ -37,7 +49,22 @@ public class BitcoinDto {
     private LocalDateTime timestamp;
 
     public Bitcoin toBitcoin() {
-        return new Bitcoin(this.base, this.quote, this.buyValue, this.sellValue);
+        Bitcoin bitcoin = new Bitcoin();
+        bitcoin.setBase(this.base);
+        bitcoin.setQuote(this.quote);
+        bitcoin.setVolume(this.vol);
+        bitcoin.setLow(this.low);
+        bitcoin.setHigh(this.high);
+        bitcoin.setLast(this.last);
+        bitcoin.setBuyValue(this.buyValue);
+        bitcoin.setSellValue(this.sellValue);
+        bitcoin.setBuyValueQuoteAmountReference(this.buyValueQuoteAmountReference);
+        bitcoin.setBuyValueBaseAmountReference(this.buyValueBaseAmountReference);
+        bitcoin.setSellValueQuoteAmountReference(this.sellValueQuoteAmountReference);
+        bitcoin.setSellValueBaseAmountReference(this.sellValueBaseAmountReference);
+        bitcoin.setTimestamp(this.timestamp);
+
+        return bitcoin;
     }
 
     public void setBase(Quote base) {

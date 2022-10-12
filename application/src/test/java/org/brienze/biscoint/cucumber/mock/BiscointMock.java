@@ -14,7 +14,7 @@ public class BiscointMock {
     private BigDecimal btcUnitaryBuyValue;
     private BigDecimal btcUnitarySellValue;
 
-    @GetMapping("/v1/ticker")
+    @GetMapping("/v2/ticker")
     public BiscointDto generateToken() {
         BitcoinDto bitcoinDto = new BitcoinDto();
         bitcoinDto.setBuyValue(btcUnitaryBuyValue);

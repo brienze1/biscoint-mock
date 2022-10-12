@@ -39,3 +39,9 @@ VALUES ('3ddc931bf25c94ff0344a2e409aa37339e400b8d4da72265f97c3a31d0cfb36e', 1, 1
 
 INSERT INTO credentials(api_key, api_secret)
 VALUES ('3ddc931bf25c94ff0344a2e409aa37339e400b8d4da72265f97c3a31d0cfb36e', '123ASD');
+
+INSERT INTO clients(api_key, bitcoin_balance, brl_balance, name)
+VALUES ('febf7e0f-7ef2-4da8-9afe-7f9f3721d9c6', 1, 1000, 'Luis Felipe');
+
+INSERT INTO credentials(api_key, api_secret)
+VALUES ('febf7e0f-7ef2-4da8-9afe-7f9f3721d9c6', 'cb5724b9-2195-49e9-9905-e4f6dbf48291');

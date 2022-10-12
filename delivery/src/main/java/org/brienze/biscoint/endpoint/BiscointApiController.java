@@ -2,16 +2,15 @@ package org.brienze.biscoint.endpoint;
 
 import org.brienze.biscoint.dto.*;
 import org.brienze.biscoint.model.Balance;
+import org.brienze.biscoint.model.Bitcoin;
 import org.brienze.biscoint.model.Offer;
 import org.brienze.biscoint.model.OfferRequest;
+import org.brienze.biscoint.useCases.BitcoinUseCase;
 import org.brienze.biscoint.useCases.ClientUseCase;
 import org.brienze.biscoint.useCases.OfferUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class BiscointApiController {
@@ -25,6 +24,9 @@ public class BiscointApiController {
 
     @Autowired
     private ClientUseCase clientUseCase;
+
+    @Autowired
+    private BitcoinUseCase bitcoinUseCase;
 
     @PostMapping("/v1/offer")
     public OfferResponseDto createOffer(@RequestBody OfferRequestDto offerRequestDto, @RequestHeader HttpHeaders headers) {
@@ -47,6 +49,13 @@ public class BiscointApiController {
         Balance balance = clientUseCase.getBalance(headers.getFirst(API_KEY));
 
         return new BalanceResponseDto(balance);
+    }
+
+    @GetMapping("/v1/ticker")
+    public TickerResponseDto getTicker(@RequestHeader HttpHeaders headers) {
+        Bitcoin bitcoin = bitcoinUseCase.getUnitaryValue();
+
+        return new TickerResponseDto(bitcoin);
     }
 
     @PostMapping("/v1/auth")

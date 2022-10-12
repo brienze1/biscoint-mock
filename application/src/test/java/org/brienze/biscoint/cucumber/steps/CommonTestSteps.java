@@ -34,7 +34,7 @@ public class CommonTestSteps {
 
     @Given("biscoint url is set correctly")
     public void biscointUrlIsSetCorrectly() {
-        ReflectionTestUtils.setField(biscointWebService, "url", "http://localhost:" + serverPort + "/v1/ticker");
+        ReflectionTestUtils.setField(biscointWebService, "url", "http://localhost:" + serverPort + "/v2/ticker");
     }
 
     @Then("the return status code should be {int}")
